@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.github.raink1208.gamesnsapp.common.protos";
+option java_outer_classname = "UserServiceProto";
+
+package protos;
+
+message UserResponse {
+  string userId = 1;
+  string userName = 2;
+  int64 createdAt = 3;
+}
+
+message ErrorResponse {
+  int32 code = 1;
+  string message = 2;
+}
+
+message CreateUserRequest {
+  string userId = 1;
+  string userName = 2;
+}
+
+message CreateUserResponse {
+  oneof result {
+    UserResponse user = 1;
+    ErrorResponse error = 2;
+  }
+}
+
+message FindByIdRequest {
+  string userId = 1;
+}
+
+message FindUserResponse {
+  UserResponse user = 1;
+}
+
+message SearchUserByNameRequest {
+  string userName = 1;
+}
+
+message SearchUserResponse {
+  repeated UserResponse users = 1;
+}
+
+service UserService {
+  rpc register(CreateUserRequest) returns (CreateUserRequest);
+  rpc findById(FindByIdRequest) returns (FindUserResponse);
+  rpc searchUserByName(SearchUserByNameRequest) returns (SearchUserResponse);
+}
