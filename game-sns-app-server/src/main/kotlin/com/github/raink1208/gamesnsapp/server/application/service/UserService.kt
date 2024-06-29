@@ -5,6 +5,7 @@ import com.github.raink1208.gamesnsapp.server.domain.factory.UserFactory
 import com.github.raink1208.gamesnsapp.server.domain.model.User
 import com.github.raink1208.gamesnsapp.server.infrastructure.repository.user.IUserRepository
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserId
+import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserUniqueId
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -27,6 +28,14 @@ class UserService (
     }
 
     override fun findUsersByName(userName: String): List<User> {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateUserId(uniqueId: String, newUserId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateUsername(uniqueId: UserUniqueId, newUserName: String): User {
         TODO("Not yet implemented")
     }
 }
