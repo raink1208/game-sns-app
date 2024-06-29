@@ -8,5 +8,5 @@ interface IUserService {
     fun findUserById(userIdStr: String): User?
     fun searchUserByName(userNameStr: String): List<User>
     fun updateUserId(uniqueIdStr: String, newUserIdStr: String): User
-    fun updateUsername(uniqueIdStr: UserUniqueId, newUserNameStr: String): User
+    fun updateUserName(uniqueIdStr: UserUniqueId, newUserNameStr: String): User
 }

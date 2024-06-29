@@ -76,7 +76,24 @@ class UserService (
         return newUser
     }
 
-    override fun updateUsername(uniqueIdStr: UserUniqueId, newUserNameStr: String): User {
+    override fun updateUserName(uniqueIdStr: UserUniqueId, newUserNameStr: String): User {
         logger.info("update userId uniqueId: $uniqueIdStr to newUserId: $newUserNameStr")
+
+        val uniqueId = UserUniqueId(ULID.parseULID(newUserNameStr))
+        val newUserName = UserName(newUserNameStr)
+
+        val userDto = userRepository.findByUniqueId(uniqueId) ?:
+            throw UserNotFoundException("User not found by UniqueId: $uniqueId")
+        val user = userFactory.createUser(userDto)
+
+        val newUser = userFactory.createUser(
+            user.uniqueId,
+            user.userId,
+            newUserName,
+            user.createdAt
+        )
+
+        userRepository.save(newUser)
+        return newUser
     }
 }
