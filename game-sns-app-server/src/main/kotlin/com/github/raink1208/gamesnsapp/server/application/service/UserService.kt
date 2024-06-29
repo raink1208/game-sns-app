@@ -27,7 +27,7 @@ class UserService (
         return user
     }
 
-    override fun findUsersByName(userName: String): List<User> {
+    override fun searchUserByName(userName: String): List<User> {
         TODO("Not yet implemented")
     }
 
