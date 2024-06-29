@@ -7,11 +7,13 @@ import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserName
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserUniqueId
 import de.huxhorn.sulky.ulid.ULID
 import org.springframework.stereotype.Component
+import java.sql.Timestamp
 
 @Component
 class UserFactory {
-    fun registerUser(userId: UserId, userName: UserName, createdAt: Long): User {
+    fun registerUser(userId: UserId, userName: UserName): User {
         val uniqueId = UserUniqueId.newId()
+        val createdAt = Timestamp(System.currentTimeMillis()).time
         return User(uniqueId, userId, userName, createdAt)
     }
 

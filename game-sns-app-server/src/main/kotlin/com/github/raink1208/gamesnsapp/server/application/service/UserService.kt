@@ -10,7 +10,6 @@ import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserName
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserUniqueId
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.sql.Timestamp
 
 @Service
 class UserService (
@@ -28,8 +27,7 @@ class UserService (
         if (userRepository.findById(id) == null)
             throw UserIdAlreadyExistsException("Already Exists UserId: $userId")
 
-        val createdAt = Timestamp(System.currentTimeMillis()).time
-        val user = userFactory.registerUser(id, name, createdAt)
+        val user = userFactory.registerUser(id, name)
 
         userRepository.register(user)
 
