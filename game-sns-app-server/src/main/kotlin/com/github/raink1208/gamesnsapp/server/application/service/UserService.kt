@@ -44,7 +44,7 @@ class UserService (
     }
 
     override fun searchUserByName(userName: String): List<User> {
-        logger.info("search user by Username: $userName")
+        logger.info("search user by UserName: $userName")
 
         val name = UserName(userName)
         val users = userRepository.findByUserName(name)
