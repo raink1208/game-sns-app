@@ -19,14 +19,14 @@ class UserService (
 ): IUserService {
     private val logger = LoggerFactory.getLogger(UserService::class.java)
 
-    override fun registerUser(userId: String, userName: String): User {
-        logger.info("register request UserId: $userId")
+    override fun registerUser(userIdStr: String, userNameStr: String): User {
+        logger.info("register request UserId: $userIdStr")
 
-        val id = UserId(userId)
-        val name = UserName(userName)
+        val id = UserId(userIdStr)
+        val name = UserName(userNameStr)
 
         if (userRepository.findById(id) == null)
-            throw UserIdAlreadyExistsException("Already Exists UserId: $userId")
+            throw UserIdAlreadyExistsException("Already Exists UserId: $userIdStr")
 
         val user = userFactory.registerUser(id, name)
 
@@ -35,31 +35,31 @@ class UserService (
         return user
     }
 
-    override fun findUserById(userId: String): User? {
-        logger.info("find user by UserId: $userId")
+    override fun findUserById(userIdStr: String): User? {
+        logger.info("find user by UserId: $userIdStr")
 
-        val userDto = userRepository.findById(UserId(userId)) ?:
-            throw UserNotFoundException("User not found by UserId: $userId")
+        val userDto = userRepository.findById(UserId(userIdStr)) ?:
+            throw UserNotFoundException("User not found by UserId: $userIdStr")
         val user = userFactory.createUser(userDto)
         return user
     }
 
-    override fun searchUserByName(userName: String): List<User> {
-        logger.info("search user by UserName: $userName")
+    override fun searchUserByName(userNameStr: String): List<User> {
+        logger.info("search user by UserName: $userNameStr")
 
-        val name = UserName(userName)
+        val name = UserName(userNameStr)
         val users = userRepository.findByUserName(name)
 
         return users.map { userFactory.createUser(it) }
     }
 
-    override fun updateUserId(uniqueId: String, newUserId: String): User {
-        logger.info("update userId uniqueId: $uniqueId to newUserId: $newUserId")
-        if (userRepository.findById(UserId(uniqueId)) != null)
-            throw UserIdAlreadyExistsException("Already Exists UserId: $newUserId")
+    override fun updateUserId(uniqueIdStr: String, newUserIdStr: String): User {
+        logger.info("update userId uniqueId: $uniqueIdStr to newUserId: $newUserIdStr")
+        if (userRepository.findById(UserId(uniqueIdStr)) != null)
+            throw UserIdAlreadyExistsException("Already Exists UserId: $newUserIdStr")
 
-        val id = UserUniqueId(ULID.parseULID(uniqueId))
-        val userId = UserId(newUserId)
+        val id = UserUniqueId(ULID.parseULID(uniqueIdStr))
+        val userId = UserId(newUserIdStr)
 
         val userDto = userRepository.findByUniqueId(id) ?:
             throw UserNotFoundException("User not found by UniqueId: $id")
@@ -76,7 +76,7 @@ class UserService (
         return newUser
     }
 
-    override fun updateUsername(uniqueId: UserUniqueId, newUserName: String): User {
-        TODO("Not yet implemented")
+    override fun updateUsername(uniqueIdStr: UserUniqueId, newUserNameStr: String): User {
+        logger.info("update userId uniqueId: $uniqueIdStr to newUserId: $newUserNameStr")
     }
 }
