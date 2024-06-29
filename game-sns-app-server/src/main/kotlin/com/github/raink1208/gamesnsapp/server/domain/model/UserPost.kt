@@ -9,4 +9,13 @@ data class UserPost(
     val content: PostContent,
     val postedAt: Long,
     val game: Game?
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (other !is UserPost) return false
+        return postId == other.postId
+    }
+
+    override fun hashCode(): Int {
+        return postId.hashCode()
+    }
+}
