@@ -12,7 +12,7 @@ data class User(
 ) {
     override fun equals(other: Any?): Boolean {
         if (other !is User) return false
-        return this.uniqueId == other.uniqueId
+        return uniqueId == other.uniqueId
     }
 
     override fun hashCode(): Int {
