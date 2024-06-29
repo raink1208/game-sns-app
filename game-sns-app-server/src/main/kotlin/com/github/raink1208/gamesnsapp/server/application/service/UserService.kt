@@ -22,13 +22,13 @@ class UserService (
     override fun registerUser(userIdStr: String, userNameStr: String): User {
         logger.info("register request UserId: $userIdStr")
 
-        val id = UserId(userIdStr)
-        val name = UserName(userNameStr)
+        val userId = UserId(userIdStr)
+        val userName = UserName(userNameStr)
 
-        if (userRepository.findById(id) == null)
+        if (userRepository.findById(userId) == null)
             throw UserIdAlreadyExistsException("Already Exists UserId: $userIdStr")
 
-        val user = userFactory.registerUser(id, name)
+        val user = userFactory.registerUser(userId, userName)
 
         userRepository.register(user)
 
@@ -47,8 +47,8 @@ class UserService (
     override fun searchUserByName(userNameStr: String): List<User> {
         logger.info("search user by UserName: $userNameStr")
 
-        val name = UserName(userNameStr)
-        val users = userRepository.findByUserName(name)
+        val userName = UserName(userNameStr)
+        val users = userRepository.findByUserName(userName)
 
         return users.map { userFactory.createUser(it) }
     }
@@ -58,16 +58,16 @@ class UserService (
         if (userRepository.findById(UserId(uniqueIdStr)) != null)
             throw UserIdAlreadyExistsException("Already Exists UserId: $newUserIdStr")
 
-        val id = UserUniqueId(ULID.parseULID(uniqueIdStr))
-        val userId = UserId(newUserIdStr)
+        val uniqueId = UserUniqueId(ULID.parseULID(uniqueIdStr))
+        val newUserId = UserId(newUserIdStr)
 
-        val userDto = userRepository.findByUniqueId(id) ?:
-            throw UserNotFoundException("User not found by UniqueId: $id")
+        val userDto = userRepository.findByUniqueId(uniqueId) ?:
+            throw UserNotFoundException("User not found by UniqueId: $uniqueId")
         val user = userFactory.createUser(userDto)
 
         val newUser = userFactory.createUser(
             user.uniqueId,
-            userId,
+            newUserId,
             user.userName,
             user.createdAt
         )
