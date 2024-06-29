@@ -15,6 +15,10 @@ class UserService (
 ): IUserService {
     private val logger = LoggerFactory.getLogger(UserService::class.java)
 
+    override fun registerUser(userId: String, userName: String): User {
+        TODO("Not yet implemented")
+    }
+
     override fun findUserById(userId: String): User? {
         val userDto = userRepository.findById(UserId(userId)) ?:
             throw UserNotFoundException("User not found By UserId $userId")
