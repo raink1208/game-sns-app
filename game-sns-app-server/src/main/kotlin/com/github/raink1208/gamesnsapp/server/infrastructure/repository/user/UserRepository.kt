@@ -1,8 +1,7 @@
-package com.github.raink1208.gamesnsapp.server.infrastructure.repository
+package com.github.raink1208.gamesnsapp.server.infrastructure.repository.user
 
 import com.github.raink1208.gamesnsapp.server.application.dto.UserDTO
 import com.github.raink1208.gamesnsapp.server.domain.model.User
-import com.github.raink1208.gamesnsapp.server.domain.repository.IUserRepository
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserId
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserName
 import org.springframework.stereotype.Repository
