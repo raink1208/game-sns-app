@@ -44,7 +44,12 @@ class UserService (
     }
 
     override fun searchUserByName(userName: String): List<User> {
-        TODO("Not yet implemented")
+        logger.info("search user by Username: $userName")
+
+        val name = UserName(userName)
+        val users = userRepository.findByUserName(name)
+
+        return users.map { userFactory.createUser(it) }
     }
 
     override fun updateUserId(uniqueId: String, newUserId: String) {
