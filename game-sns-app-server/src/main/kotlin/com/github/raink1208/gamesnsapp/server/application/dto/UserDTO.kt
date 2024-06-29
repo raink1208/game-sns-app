@@ -1,7 +1,5 @@
 package com.github.raink1208.gamesnsapp.server.application.dto
 
-import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserUniqueId
-
 data class UserDTO(
     val uniqueId: String,
     val userId: String,
