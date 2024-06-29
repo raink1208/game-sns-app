@@ -21,8 +21,10 @@ class UserService (
     }
 
     override fun findUserById(userId: String): User? {
+        logger.info("find user by UserId: $userId")
+
         val userDto = userRepository.findById(UserId(userId)) ?:
-            throw UserNotFoundException("User not found By UserId $userId")
+            throw UserNotFoundException("User not found by UserId: $userId")
         val user = userFactory.createUser(userDto)
         return user
     }
