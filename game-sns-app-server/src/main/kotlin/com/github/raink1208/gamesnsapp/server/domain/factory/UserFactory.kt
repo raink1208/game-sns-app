@@ -10,6 +10,11 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserFactory {
+    fun registerUser(userId: UserId, userName: UserName, createdAt: Long): User {
+        val uniqueId = UserUniqueId.newId()
+        return User(uniqueId, userId, userName, createdAt)
+    }
+
     fun createUser(userDto: UserDTO): User {
         val uniqueId = UserUniqueId(ULID.parseULID(userDto.uniqueId))
         val userId = UserId(userDto.userId)
