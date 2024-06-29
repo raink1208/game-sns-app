@@ -8,6 +8,7 @@ import com.github.raink1208.gamesnsapp.server.infrastructure.repository.user.IUs
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserId
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserName
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserUniqueId
+import de.huxhorn.sulky.ulid.ULID
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -52,8 +53,27 @@ class UserService (
         return users.map { userFactory.createUser(it) }
     }
 
-    override fun updateUserId(uniqueId: String, newUserId: String) {
-        TODO("Not yet implemented")
+    override fun updateUserId(uniqueId: String, newUserId: String): User {
+        logger.info("update userId uniqueId: $uniqueId to newUserId: $newUserId")
+        if (userRepository.findById(UserId(uniqueId)) != null)
+            throw UserIdAlreadyExistsException("Already Exists UserId: $newUserId")
+
+        val id = UserUniqueId(ULID.parseULID(uniqueId))
+        val userId = UserId(newUserId)
+
+        val userDto = userRepository.findByUniqueId(id) ?:
+            throw UserNotFoundException("User not found by UniqueId: $id")
+        val user = userFactory.createUser(userDto)
+
+        val newUser = userFactory.createUser(
+            user.uniqueId,
+            userId,
+            user.userName,
+            user.createdAt
+        )
+
+        userRepository.save(newUser)
+        return newUser
     }
 
     override fun updateUsername(uniqueId: UserUniqueId, newUserName: String): User {

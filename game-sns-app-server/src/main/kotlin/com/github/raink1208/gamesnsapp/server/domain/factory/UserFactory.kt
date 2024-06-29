@@ -24,4 +24,8 @@ class UserFactory {
 
         return User(uniqueId, userId, userName, userDto.createdAt)
     }
+
+    fun createUser(uniqueId: UserUniqueId, userId: UserId, userName: UserName, createdAt: Long): User {
+        return User(uniqueId, userId, userName, createdAt)
+    }
 }
