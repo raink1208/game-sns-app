@@ -10,14 +10,4 @@ data class UserUniqueId(
             return UserUniqueId(ULID().nextValue())
         }
     }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is UserUniqueId) return false
-
-        return uniqueId == other.uniqueId
-    }
-
-    override fun hashCode(): Int {
-        return uniqueId.hashCode()
-    }
 }

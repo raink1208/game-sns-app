@@ -8,15 +8,6 @@ data class UserName(
 
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is UserName) return false
-        return userName == other.userName
-    }
-
-    override fun hashCode(): Int {
-        return userName.hashCode()
-    }
-
     override fun toString(): String {
         return userName
     }

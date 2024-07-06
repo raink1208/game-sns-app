@@ -14,15 +14,6 @@ class UserId(
             throw IllegalArgumentException("UserId can't be valid")
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is UserId) return false
-        return userId == other.userId
-    }
-
-    override fun hashCode(): Int {
-        return userId.hashCode()
-    }
-
     override fun toString(): String {
         return userId
     }
