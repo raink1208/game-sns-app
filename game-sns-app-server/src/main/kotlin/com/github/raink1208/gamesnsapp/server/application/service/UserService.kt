@@ -55,7 +55,7 @@ class UserService (
 
     override fun updateUserId(uniqueIdStr: String, newUserIdStr: String): User {
         logger.info("update userId uniqueId: $uniqueIdStr to newUserId: $newUserIdStr")
-        if (userRepository.findById(UserId(uniqueIdStr)) != null)
+        if (userRepository.findById(UserId(newUserIdStr)) != null)
             throw UserIdAlreadyExistsException("Already Exists UserId: $newUserIdStr")
 
         val uniqueId = UserUniqueId(ULID.parseULID(uniqueIdStr))
