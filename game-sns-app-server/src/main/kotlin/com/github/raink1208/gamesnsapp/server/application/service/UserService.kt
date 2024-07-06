@@ -8,7 +8,6 @@ import com.github.raink1208.gamesnsapp.server.infrastructure.repository.user.IUs
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserId
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserName
 import com.github.raink1208.gamesnsapp.server.domain.valueobject.UserUniqueId
-import de.huxhorn.sulky.ulid.ULID
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -29,7 +28,6 @@ class UserService (
             throw UserIdAlreadyExistsException("Already Exists UserId: $userIdStr")
 
         val user = userFactory.registerUser(userId, userName)
-
         userRepository.register(user)
 
         return user
@@ -40,8 +38,8 @@ class UserService (
 
         val userDto = userRepository.findById(UserId(userIdStr)) ?:
             throw UserNotFoundException("User not found by UserId: $userIdStr")
-        val user = userFactory.createUser(userDto)
-        return user
+
+        return userFactory.createUser(userDto)
     }
 
     override fun searchUserByName(userNameStr: String): List<User> {
@@ -55,45 +53,34 @@ class UserService (
 
     override fun updateUserId(uniqueIdStr: String, newUserIdStr: String): User {
         logger.info("update userId uniqueId: $uniqueIdStr to newUserId: $newUserIdStr")
+
         if (userRepository.findById(UserId(newUserIdStr)) != null)
             throw UserIdAlreadyExistsException("Already Exists UserId: $newUserIdStr")
 
-        val uniqueId = UserUniqueId(ULID.parseULID(uniqueIdStr))
-        val newUserId = UserId(newUserIdStr)
+        val uniqueId = UserUniqueId.parseStr(uniqueIdStr)
 
         val userDto = userRepository.findByUniqueId(uniqueId) ?:
             throw UserNotFoundException("User not found by UniqueId: $uniqueId")
         val user = userFactory.createUser(userDto)
 
-        val newUser = userFactory.createUser(
-            user.uniqueId,
-            newUserId,
-            user.userName,
-            user.createdAt
-        )
+        user.changeUserId(newUserIdStr)
+        userRepository.save(user)
 
-        userRepository.save(newUser)
-        return newUser
+        return user
     }
 
-    override fun updateUserName(uniqueIdStr: UserUniqueId, newUserNameStr: String): User {
+    override fun updateUserName(uniqueIdStr: String, newUserNameStr: String): User {
         logger.info("update userId uniqueId: $uniqueIdStr to newUserId: $newUserNameStr")
 
-        val uniqueId = UserUniqueId(ULID.parseULID(newUserNameStr))
-        val newUserName = UserName(newUserNameStr)
+        val uniqueId = UserUniqueId.parseStr(uniqueIdStr)
 
         val userDto = userRepository.findByUniqueId(uniqueId) ?:
             throw UserNotFoundException("User not found by UniqueId: $uniqueId")
         val user = userFactory.createUser(userDto)
 
-        val newUser = userFactory.createUser(
-            user.uniqueId,
-            user.userId,
-            newUserName,
-            user.createdAt
-        )
+        user.changeUserName(newUserNameStr)
+        userRepository.save(user)
 
-        userRepository.save(newUser)
-        return newUser
+        return user
     }
 }
