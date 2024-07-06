@@ -70,7 +70,7 @@ class UserService (
     }
 
     override fun updateUserName(uniqueIdStr: String, newUserNameStr: String): User {
-        logger.info("update userId uniqueId: $uniqueIdStr to newUserId: $newUserNameStr")
+        logger.info("update userId uniqueId: $uniqueIdStr to newUserName: $newUserNameStr")
 
         val uniqueId = UserUniqueId.parseStr(uniqueIdStr)
 
